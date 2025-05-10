@@ -1,0 +1,19 @@
+#!/bin/sh
+#SBATCH --job-name=makeSineWavSpeech
+
+#SBATCH --time=0-5:0:0
+#SBATCH -n 1
+#SBATCH --mem=2000
+#SBATCH --nice=0
+##SBATCH --qos=mcdermott
+#SBATCH --exclude=node[069,073,081,084,100-116,072,062,097,093,066,055,098,082,092,074,067,087,091,059,060,058,041,079,075,076,056,061,063,064,078,094,077,070,088,085,086,068,057,080]
+
+#SBATCH --mail-user=ershook@mit.edu
+#SBATCH --mail-type=end
+#SBATCH --mail-type=fail
+
+## 1-N array jobs % K jobs at a time
+#SBATCH --array 1
+
+module add mit/matlab/2013a
+matlab -nosplash -nodisplay -r "make_sine_wav_speech($SLURM_ARRAY_TASK_ID, 4), exit"
